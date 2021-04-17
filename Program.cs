@@ -10,15 +10,16 @@ namespace LP
         static LpBarrier barrier = new LpBarrier(3);
         static string[] productsHelp = { "Art 1", "Art 2", "Art 3" };
 
-        static void Main(string[] args)
+
+        static void Main2(string[] args)
         {
             // TestBarrier();
 
             // Run philosopher = new Run();
             // philosopher.Main();
 
-            LpBarber simulate = new LpBarber();
-            simulate.Simulate();
+            // LpBarber simulate = new LpBarber();
+            // simulate.Simulate();
         }
 
         static void TestBarrier()

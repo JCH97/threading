@@ -11,7 +11,7 @@ namespace NLpBarber
         private Semaphore semaphore;
         private int maxClients;
 
-        public LpBarber(int clients = 5)
+        public LpBarber(int clients = 6)
         {
             this.maxClients = clients;
             this.clients = new Queue<int>();
@@ -26,6 +26,7 @@ namespace NLpBarber
 
             arrival.Start();
             barber.Start();
+
             arrival.Join();
             barber.Join();
         }

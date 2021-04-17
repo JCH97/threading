@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace NLpCountdown
 {
-    public class Countdown
+    public class LpCountdown
     {
         Semaphore semaphore, mutex;
 
@@ -15,7 +15,7 @@ namespace NLpCountdown
         public bool IsSet { get { return CurrentCount == 0; } }
 
 
-        public Countdown(int initial)
+        public LpCountdown(int initial)
         {
             this.semaphore = new Semaphore(0, int.MaxValue);
             this.mutex = new Semaphore(1, 1);
