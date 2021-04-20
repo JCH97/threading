@@ -11,13 +11,16 @@ namespace NLpBarrier
         public int RemainingParticipants { get; private set; }
         public int CurrentPhase { get; private set; }
 
-        public LpBarrier(int participants)
+        private Action<LpBarrier> toDo;
+
+        public LpBarrier(int participants, Action<LpBarrier> toDo = null)
         {
             Participants = participants;
-            RemainingParticipants = participants;
+            RemainingParticipants = Participants;
             CurrentPhase = 1;
             this.mutex = new Semaphore(1, 1);
-            this.semaphore = new Semaphore(0, participants - 1);
+            this.semaphore = new Semaphore(0, Participants - 1);
+            this.toDo = null;
         }
 
         public int AddParticipant()
@@ -50,6 +53,20 @@ namespace NLpBarrier
             }
             else
             {
+                try
+                {
+                    toDo?.Invoke(this);
+                }
+                catch (System.Exception e)
+                {
+                    CurrentPhase++;
+                    semaphore.Release(Participants - 1);
+                    RemainingParticipants = Participants;
+                    this.mutex.Release();
+
+                    throw e;
+                }
+
                 semaphore.Release(Participants - 1);
                 CurrentPhase++;
                 RemainingParticipants = Participants;
